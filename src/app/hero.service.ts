@@ -37,7 +37,17 @@ export class HeroService {
     return this.http.put(this.heroesUrl, hero);
   }
 
-  deleteHero(hero: Hero): Observable<Hero> {
-    return this.http.delete<Hero>(`${this.heroesUrl}/${hero.id}`);
+  deleteHero(hero: Hero | number): Observable<Hero> {
+    const id = typeof hero === 'number' ? hero : hero.id;
+    return this.http.delete<Hero>(`${this.heroesUrl}/${id}`);
+  }
+
+  /* GET heroes whose name contains search term */
+  searchHeroes(term: string): Observable<Hero[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`);
   }
 }
