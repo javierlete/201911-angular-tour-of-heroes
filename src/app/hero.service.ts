@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HeroService {
 
-  url = 'api/heroes';
+  heroesUrl = 'api/heroes';
 
   constructor(
     private http: HttpClient,
@@ -17,15 +17,19 @@ export class HeroService {
 
   getHeroes(): Observable<Hero[]> {
     this.messageService.add('HeroService: fetched heroes');
-    return this.http.get<Hero[]>(this.url);
+    return this.http.get<Hero[]>(this.heroesUrl);
   }
 
   // get<T>(url): Observable<T> {
   //   return of({} as T);
   // }
 
-  // getHero(id: number): Observable<Hero> {
-  //   this.messageService.add(`HeroService: fetched hero id=${id}`);
-  //   return of(HEROES.find(hero => hero.id === id));
-  // }
+  getHero(id: number): Observable<Hero> {
+    this.messageService.add(`HeroService: fetched hero id=${id}`);
+    return this.http.get<Hero>(`${this.heroesUrl}/${id}`);
+  }
+
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesUrl, hero);
+  }
 }

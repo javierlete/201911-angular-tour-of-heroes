@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
-import { HEROES } from '../mock-heroes';
 import { HeroService } from '../hero.service';
 @Component({
   selector: 'app-heroes',
@@ -24,6 +23,7 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes() {
+    console.log('Voy a llamar a getHeroes');
     this.heroService.getHeroes().subscribe(
       // VERSIÓN 1
       // this.seHanRecibidoHeroes.bind(this)
@@ -44,14 +44,20 @@ export class HeroesComponent implements OnInit {
       // (heroesRecibidos: Hero[]) => this.heroes = heroesRecibidos
 
       // VERSIÓN 5
-      this.seHanRecibidoHeroes
+      (heroes) => {
+        console.log('Ha llegado la respuesta');
+        this.seHanRecibidoHeroes(heroes);
+      }
     );
+    console.log('He terminado de llamar a getHeroes');
+
+    console.log(this.heroes);
   }
 
 
   // VERSIÓN 5
   seHanRecibidoHeroes = (heroesRecibidos: Hero[]) => {
-    console.log(this);
+    console.log('seHanRecibidoHeroes', this);
     this.heroes = heroesRecibidos;
   }
 
