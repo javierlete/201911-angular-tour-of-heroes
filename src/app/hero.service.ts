@@ -29,7 +29,15 @@ export class HeroService {
     return this.http.get<Hero>(`${this.heroesUrl}/${id}`);
   }
 
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero);
+  }
+
   updateHero(hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero);
+  }
+
+  deleteHero(hero: Hero): Observable<Hero> {
+    return this.http.delete<Hero>(`${this.heroesUrl}/${hero.id}`);
   }
 }

@@ -44,10 +44,11 @@ export class HeroesComponent implements OnInit {
       // (heroesRecibidos: Hero[]) => this.heroes = heroesRecibidos
 
       // VERSIÓN 5
-      (heroes) => {
-        console.log('Ha llegado la respuesta');
-        this.seHanRecibidoHeroes(heroes);
-      }
+      this.seHanRecibidoHeroes
+      // (heroes) => {
+      //   console.log('Ha llegado la respuesta');
+      //   this.seHanRecibidoHeroes(heroes);
+      // }
     );
     console.log('He terminado de llamar a getHeroes');
 
@@ -66,4 +67,19 @@ export class HeroesComponent implements OnInit {
   //   console.log(this);
   //   this.heroes = heroesRecibidos;
   // }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
+
+  delete(hero: Hero): void {
+    this.heroService.deleteHero(hero).subscribe(
+      () => this.heroes = this.heroes.filter(h => h !== hero)
+    );
+  }
 }
